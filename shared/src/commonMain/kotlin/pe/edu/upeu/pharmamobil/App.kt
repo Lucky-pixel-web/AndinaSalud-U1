@@ -42,15 +42,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import org.koin.compose.KoinContext
+import org.koin.compose.viewmodel.koinViewModel
 
 import pe.edu.upeu.pharmamobil.navigation.Screen
 import pe.edu.upeu.pharmamobil.presentation.cliente.ClienteScreen
 import pe.edu.upeu.pharmamobil.presentation.inicio.InicioScreen
 import pe.edu.upeu.pharmamobil.presentation.producto.ProductoScreen
+import pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModel
 import pe.edu.upeu.pharmamobil.theme.PharmaMobilTheme
 
 @Composable
-fun App() {
+fun App() = KoinContext {
+
     var pantallaActual by remember {
         mutableStateOf<Screen>(Screen.Inicio)
     }
@@ -255,7 +259,11 @@ fun App() {
                                     .padding(paddingValues)
                             ) {
 
-                                ProductoScreen()
+                                val productoViewModel: ProductoViewModel = koinViewModel()
+
+                                ProductoScreen(
+                                    viewModel = productoViewModel
+                                )
                             }
                         }
 
