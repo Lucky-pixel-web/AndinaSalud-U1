@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import pe.edu.upeu.pharmamobil.presentation.cliente.ClienteViewModel
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Medication
 import androidx.compose.material.icons.filled.Menu
@@ -274,7 +275,11 @@ fun App() = KoinContext {
                                     .padding(paddingValues)
                             ) {
 
-                                ClienteScreen()
+                                val clienteViewModel: ClienteViewModel = koinViewModel()
+
+                                ClienteScreen(
+                                    viewModel = clienteViewModel
+                                )
                             }
                         }
 

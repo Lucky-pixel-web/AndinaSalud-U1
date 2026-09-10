@@ -1,4 +1,4 @@
-package pe.edu.upeu.pharmamobil.presentation.producto
+package pe.edu.upeu.pharmamobil.presentation.cliente
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,41 +7,41 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import pe.edu.upeu.pharmamobil.domain.usecase.ListarProductosUseCase
-import pe.edu.upeu.pharmamobil.domain.usecase.ProductoInvalidoException
-import pe.edu.upeu.pharmamobil.domain.usecase.RegistrarProductoUseCase
+import pe.edu.upeu.pharmamobil.domain.usecase.ClienteInvalidoException
+import pe.edu.upeu.pharmamobil.domain.usecase.ListarClientesUseCase
+import pe.edu.upeu.pharmamobil.domain.usecase.RegistrarClienteUseCase
 
-class ProductoViewModel(
-    private val registrarProducto: RegistrarProductoUseCase,
-    private val listarProductos: ListarProductosUseCase
+class ClienteViewModel(
+    private val registrarCliente: RegistrarClienteUseCase,
+    private val listarClientes: ListarClientesUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(ProductoUiState())
-    val uiState: StateFlow<ProductoUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(ClienteUiState())
+    val uiState: StateFlow<ClienteUiState> = _uiState.asStateFlow()
 
     init {
-        cargarProductos()
+        cargarClientes()
     }
 
-    fun cargarProductos() {
+    fun cargarClientes() {
 
         viewModelScope.launch {
 
             _uiState.update {
-                it.copy(fase = ProductoUiState.Fase.Cargando)
+                it.copy(fase = ClienteUiState.Fase.Cargando)
             }
 
-            val fase = listarProductos().fold(
-                onSuccess = { productos ->
-                    if (productos.isEmpty()) {
-                        ProductoUiState.Fase.SinProductos
+            val fase = listarClientes().fold(
+                onSuccess = { clientes ->
+                    if (clientes.isEmpty()) {
+                        ClienteUiState.Fase.SinClientes
                     } else {
-                        ProductoUiState.Fase.ConProductos(productos.map { it.aUi() })
+                        ClienteUiState.Fase.ConClientes(clientes.map { it.aUi() })
                     }
                 },
                 onFailure = { fallo ->
-                    ProductoUiState.Fase.Error(
-                        fallo.message ?: "No se pudo cargar el inventario"
+                    ClienteUiState.Fase.Error(
+                        fallo.message ?: "No se pudo cargar la cartera de clientes"
                     )
                 }
             )
@@ -61,19 +61,19 @@ class ProductoViewModel(
         }
     }
 
-    fun onPrecioChange(precio: String) {
+    fun onCorreoChange(correo: String) {
         _uiState.update {
             it.copy(
-                formulario = it.formulario.copy(precio = precio, precioError = null),
+                formulario = it.formulario.copy(correo = correo, correoError = null),
                 mensajeExito = null
             )
         }
     }
 
-    fun onStockChange(stock: String) {
+    fun onTelefonoChange(telefono: String) {
         _uiState.update {
             it.copy(
-                formulario = it.formulario.copy(stock = stock, stockError = null),
+                formulario = it.formulario.copy(telefono = telefono, telefonoError = null),
                 mensajeExito = null
             )
         }
@@ -91,31 +91,31 @@ class ProductoViewModel(
 
             val formulario = _uiState.value.formulario
 
-            registrarProducto(
+            registrarCliente(
                 nombre = formulario.nombre,
-                precio = formulario.precio,
-                stock = formulario.stock
+                correo = formulario.correo,
+                telefono = formulario.telefono
             ).fold(
-                onSuccess = { producto ->
+                onSuccess = { cliente ->
                     _uiState.update {
                         it.copy(
                             registrando = false,
-                            formulario = FormularioProducto(),
-                            mensajeExito = "Producto \"${producto.nombre}\" registrado correctamente"
+                            formulario = FormularioCliente(),
+                            mensajeExito = "Cliente \"${cliente.nombre}\" registrado correctamente"
                         )
                     }
-                    cargarProductos()
+                    cargarClientes()
                 },
                 onFailure = { fallo ->
                     when (fallo) {
 
-                        is ProductoInvalidoException -> _uiState.update {
+                        is ClienteInvalidoException -> _uiState.update {
                             it.copy(
                                 registrando = false,
                                 formulario = it.formulario.copy(
                                     nombreError = fallo.errores.nombre,
-                                    precioError = fallo.errores.precio,
-                                    stockError = fallo.errores.stock
+                                    correoError = fallo.errores.correo,
+                                    telefonoError = fallo.errores.telefono
                                 )
                             )
                         }
@@ -123,8 +123,8 @@ class ProductoViewModel(
                         else -> _uiState.update {
                             it.copy(
                                 registrando = false,
-                                fase = ProductoUiState.Fase.Error(
-                                    fallo.message ?: "No se pudo registrar el producto"
+                                fase = ClienteUiState.Fase.Error(
+                                    fallo.message ?: "No se pudo registrar el cliente"
                                 )
                             )
                         }
