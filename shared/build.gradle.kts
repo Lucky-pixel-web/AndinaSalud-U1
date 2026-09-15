@@ -60,14 +60,20 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
             implementation(compose.materialIconsExtended)
-            implementation(libs.kotlinx.coroutines.core)
+
+            // api porque LibroViewModel/LectorViewModel se construyen con koinViewModel()
+            // ver los tipos de koin-compose-viewmodel en su firma pública; si fuera
+            // implementation, los módulos que dependan de "shared" no podrían
+
             api(libs.koin.core)
             api(libs.koin.compose)
             api(libs.koin.compose.viewmodel)
+
+            implementation(compose.materialIconsExtended)
+            implementation(libs.androidx.lifecycle.viewmodel)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
-            implementation(libs.kotlinx.coroutines.test)
             implementation(libs.kotlinx.coroutines.test)
         }
     }
