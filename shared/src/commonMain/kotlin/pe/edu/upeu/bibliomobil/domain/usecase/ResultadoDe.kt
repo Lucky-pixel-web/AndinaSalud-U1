@@ -1,13 +1,12 @@
 package pe.edu.upeu.bibliomobil.domain.usecase
 
-import kotlin.coroutines.cancellation.CancellationException
+import kotlinx.coroutines.CancellationException
 
-internal suspend fun <T> resultadoDe(bloque: suspend () -> T): Result<T> {
-    return try {
+suspend inline fun <T> resultadoDe(crossinline bloque: suspend () -> T): Result<T> =
+    try {
         Result.success(bloque())
-    } catch (cancelacion: CancellationException) {
-        throw cancelacion
-    } catch (fallo: Throwable) {
-        Result.failure(fallo)
+    } catch (e: CancellationException) {
+        throw e
+    } catch (e: Throwable) {
+        Result.failure(e)
     }
-}
