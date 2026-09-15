@@ -1,7 +1,5 @@
 package pe.edu.upeu.bibliomobil.presentation.cliente
 
-import pe.edu.upeu.bibliomobil.domain.model.Cliente
-
 data class ClienteUi(
     val id: Long,
     val nombre: String,

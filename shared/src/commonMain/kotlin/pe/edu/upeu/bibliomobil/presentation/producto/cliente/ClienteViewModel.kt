@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pe.edu.upeu.bibliomobil.domain.usecase.ClienteInvalidoException
-import pe.edu.upeu.bibliomobil.domain.usecase.ListarClientesUseCase
 import pe.edu.upeu.bibliomobil.domain.usecase.RegistrarClienteUseCase
 
 class ClienteViewModel(

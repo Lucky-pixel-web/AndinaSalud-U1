@@ -1,18 +1,14 @@
 package pe.edu.upeu.bibliomobil.presentation.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -21,36 +17,23 @@ fun EstadoVacio(
     titulo: String,
     descripcion: String,
     modifier: Modifier = Modifier,
-    colorIcono: Color = MaterialTheme.colorScheme.onSurfaceVariant,
-    accion: (@Composable () -> Unit)? = null
+    esError: Boolean = false,
+    onReintentar: (() -> Unit)? = null
 ) {
-
+    val color = if (esError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant
     Column(
-        modifier = modifier.padding(24.dp),
+        modifier = modifier.fillMaxSize().padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.Center
     ) {
-
-        Icon(
-            imageVector = icono,
-            contentDescription = null,
-            tint = colorIcono,
-            modifier = Modifier.size(48.dp)
-        )
-
-        Text(
-            text = titulo,
-            style = MaterialTheme.typography.titleMedium,
-            textAlign = TextAlign.Center
-        )
-
-        Text(
-            text = descripcion,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center
-        )
-
-        accion?.invoke()
+        Icon(icono, contentDescription = null, tint = color, modifier = Modifier.size(64.dp))
+        Spacer(Modifier.height(16.dp))
+        Text(titulo, style = MaterialTheme.typography.titleMedium, color = color)
+        Spacer(Modifier.height(8.dp))
+        Text(descripcion, style = MaterialTheme.typography.bodyMedium, color = color)
+        if (onReintentar != null) {
+            Spacer(Modifier.height(16.dp))
+            Button(onClick = onReintentar) { Text("Reintentar") }
+        }
     }
 }

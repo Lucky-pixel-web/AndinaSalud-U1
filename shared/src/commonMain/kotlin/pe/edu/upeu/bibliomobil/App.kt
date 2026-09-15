@@ -49,7 +49,6 @@ import pe.edu.upeu.bibliomobil.navigation.Screen
 import pe.edu.upeu.bibliomobil.presentation.cliente.ClienteScreen
 import pe.edu.upeu.bibliomobil.presentation.inicio.InicioScreen
 import pe.edu.upeu.bibliomobil.presentation.producto.ProductoScreen
-import pe.edu.upeu.bibliomobil.presentation.producto.ProductoViewModel
 import pe.edu.upeu.bibliomobil.theme.PharmaMobilTheme
 
 @Composable
