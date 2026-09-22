@@ -15,6 +15,7 @@ import org.koin.core.parameter.parametersOf
 import pe.edu.upeu.andinasalud.presentation.detalle.DetalleCitaViewModel
 import pe.edu.upeu.andinasalud.domain.usecase.ObtenerCatalogosUseCase
 import pe.edu.upeu.andinasalud.presentation.solicitud.SolicitudViewModel
+import pe.edu.upeu.andinasalud.presentation.inicio.InicioViewModel
 
 
 val dataModule = module {
@@ -32,6 +33,7 @@ val presentationModule = module {
     factoryOf(::CitasViewModel)
     factory { (citaId: Int) -> DetalleCitaViewModel(citaId, get(), get()) }
     factoryOf(::SolicitudViewModel)
+    factoryOf(::InicioViewModel)
 }
 
 expect val platformModule: org.koin.core.module.Module
