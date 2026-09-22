@@ -7,10 +7,12 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import org.koin.compose.KoinContext
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pe.edu.upeu.andinasalud.navigation.Screen
 import pe.edu.upeu.andinasalud.presentation.citas.CitasScreen
 import pe.edu.upeu.andinasalud.presentation.citas.CitasViewModel
 import pe.edu.upeu.andinasalud.presentation.detalle.DetalleCitaScreen
@@ -22,8 +24,6 @@ import pe.edu.upeu.andinasalud.presentation.solicitud.SolicitudScreen
 import pe.edu.upeu.andinasalud.presentation.solicitud.SolicitudViewModel
 import pe.edu.upeu.andinasalud.presentation.theme.AndinaSaludTheme
 
-
-//Imports
 @Composable
 fun App() = KoinContext {
     var darkTheme by rememberSaveable { mutableStateOf(false) }
