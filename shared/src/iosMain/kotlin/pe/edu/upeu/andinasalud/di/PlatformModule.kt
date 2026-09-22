@@ -1,8 +1,4 @@
 package pe.edu.upeu.andinasalud.di
 
-import org.koin.core.module.Module
-import org.koin.dsl.module
-
-actual val platformModule: Module = module {
-
-}
+// Módulo de plataforma iOS: se reescribe cuando
+// existan los repositorios y casos de uso de Cita.

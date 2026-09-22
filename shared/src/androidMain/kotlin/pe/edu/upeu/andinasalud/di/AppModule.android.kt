@@ -1,7 +1,4 @@
 package pe.edu.upeu.andinasalud.di
 
-import org.koin.dsl.module
-
-actual val platformModule = module {
-
-}
+// Módulo de plataforma Android: se reescribe cuando
+// existan los repositorios y casos de uso de Cita.
