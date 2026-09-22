@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import pe.edu.upeu.andinasalud.domain.model.EstadoCita
 
 @Composable
 fun DetalleCitaScreen(viewModel: DetalleCitaViewModel, modifier: Modifier = Modifier) {
@@ -16,11 +17,15 @@ fun DetalleCitaScreen(viewModel: DetalleCitaViewModel, modifier: Modifier = Modi
     Box(modifier = modifier.fillMaxSize()) {
         when (val fase = estado.fase) {
             is FaseDetalle.Cargando -> Column(
-                Modifier.fillMaxSize(), Alignment.CenterHorizontally, Arrangement.Center
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) { CircularProgressIndicator() }
 
             is FaseDetalle.Error -> Column(
-                Modifier.fillMaxSize().padding(24.dp), Alignment.CenterHorizontally, Arrangement.Center
+                modifier = Modifier.fillMaxSize().padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) { Text(fase.mensaje, color = MaterialTheme.colorScheme.error) }
 
             is FaseDetalle.Contenido -> {
@@ -32,6 +37,16 @@ fun DetalleCitaScreen(viewModel: DetalleCitaViewModel, modifier: Modifier = Modi
                     Text("Sede: ${cita.sede}")
                     Text("Fecha: ${cita.fechaTexto}  ·  Hora: ${cita.horaTexto}")
                     Text("Estado: ${cita.estadoTexto}")
+
+                    // RF-03: indicaciones del estado (varían según el tipo de estado).
+                    when (val e = cita.estado) {
+                        is EstadoCita.Atendida -> Text("Indicaciones: ${e.indicaciones}")
+                        is EstadoCita.Cancelada -> Text("Motivo de cancelación: ${e.motivo}")
+                        is EstadoCita.Programada -> Text(
+                            if (e.recordatorioActivo) "Recordatorio activado" else "Recordatorio desactivado"
+                        )
+                    }
+
                     Spacer(Modifier.height(24.dp))
                     if (cita.estadoTexto == "Programada") {
                         Button(

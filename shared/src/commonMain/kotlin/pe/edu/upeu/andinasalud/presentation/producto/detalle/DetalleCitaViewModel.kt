@@ -9,9 +9,6 @@ import kotlinx.coroutines.launch
 import pe.edu.upeu.andinasalud.domain.usecase.CancelarCitaUseCase
 import pe.edu.upeu.andinasalud.domain.usecase.ObtenerCitasUseCase
 import pe.edu.upeu.andinasalud.presentation.citas.aUi
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.core.parameter.parametersOf
-import pe.edu.upeu.andinasalud.presentation.detalle.DetalleCitaViewModel
 
 class DetalleCitaViewModel(
     private val citaId: Int,
@@ -21,11 +18,6 @@ class DetalleCitaViewModel(
 
     private val _uiState = MutableStateFlow(DetalleCitaUiState())
     val uiState: StateFlow<DetalleCitaUiState> = _uiState.asStateFlow()
-
-    val presentationModule = module {
-        factoryOf(::CitasViewModel)
-        factory { (citaId: Int) -> DetalleCitaViewModel(citaId, get(), get()) }
-    }
 
     init { cargar() }
 

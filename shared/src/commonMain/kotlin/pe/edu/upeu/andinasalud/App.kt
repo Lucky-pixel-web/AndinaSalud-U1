@@ -9,12 +9,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import org.koin.compose.KoinContext
-import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import pe.edu.upeu.andinasalud.domain.usecase.CancelarCitaUseCase
-import pe.edu.upeu.andinasalud.domain.usecase.ObtenerCitasUseCase
-import pe.edu.upeu.andinasalud.navigation.Screen
 import pe.edu.upeu.andinasalud.presentation.citas.CitasScreen
 import pe.edu.upeu.andinasalud.presentation.citas.CitasViewModel
 import pe.edu.upeu.andinasalud.presentation.detalle.DetalleCitaScreen

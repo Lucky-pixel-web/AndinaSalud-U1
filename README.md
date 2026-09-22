@@ -1,31 +1,65 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# AndinaSalud - Producto Unidad 1
 
-* [/iosApp](./iosApp/iosApp) contains an iOS application. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+Aplicación móvil multiplataforma (KMP + Compose Multiplatform) para la gestión de citas
+médicas de la red AndinaSalud. Funciona con datos simulados en memoria, siguiendo una
+arquitectura Clean + MVVM que permite sustituir la fuente de datos por una API real sin
+modificar la interfaz ni los casos de uso.
 
-* [/shared](./shared/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./shared/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./shared/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./shared/src/jvmMain/kotlin)
-    folder is the appropriate location.
+## Estructura de paquetes
 
-### Running the apps
+shared/src/commonMain/kotlin/pe/edu/upeu/andinasalud/
+├── domain/
+│ ├── model/ Cita, EstadoCita (sealed class), Medico, Sede, Paciente
+│ ├── repository/ CitaRepository (interfaz)
+│ └── usecase/ ObtenerCitasUseCase, SolicitarCitaUseCase, CancelarCitaUseCase, etc.
+├── data/
+│ ├── local/ CitasSimuladas (datos semilla en memoria)
+│ └── repository/ CitaRepositoryFake (implementación simulada de CitaRepository)
+├── presentation/
+│ ├── citas/ CitasViewModel, CitasUiState, CitasScreen
+│ ├── detalle/ DetalleCitaViewModel, DetalleCitaScreen
+│ ├── solicitud/ SolicitudViewModel, SolicitudScreen
+│ ├── perfil/ PerfilScreen
+│ └── theme/ Color, Type, AndinaSaludTheme
+├── navigation/ Destinos, Screen (pila simple manejada en App.kt)
+├── di/ AppModule (módulos de Koin)
+└── App.kt Composable raíz: Scaffold + navegación + theming
 
-Use the run configurations provided by the run widget in your IDE's toolbar. You can also use these commands and options:
 
-- Android app: `./gradlew :androidApp:assembleDebug`
-- iOS app: open the [/iosApp](./iosApp) directory in Xcode and run it from there.
 
-### Running tests
+## Decisiones de arquitectura
 
-Use the run button in your IDE's editor gutter, or run tests using Gradle tasks:
+- **Clean + MVVM**: la capa `domain` no depende de Android ni de Compose; expone una
+  interfaz `CitaRepository` que `data.repository.CitaRepositoryFake` implementa con datos
+  en memoria. El día que exista la API REST, basta con crear un `CitaRepositoryApi` que
+  implemente la misma interfaz y cambiar el binding en `AppModule`.
+- **Reglas de negocio (RN-01 a RN-05)** viven en el dominio: RN-01, RN-02, RN-04 y RN-05 se
+  validan en `SolicitarCitaUseCase`; RN-03 vive como método en la propia entidad `Cita`
+  (`puedeCancelarse`) y se usa desde `CancelarCitaUseCase`.
+- **Estado de la cita** modelado con `sealed class EstadoCita` (Programada, Atendida,
+  Cancelada), cada una con su propia información asociada.
+- **ViewModels** exponen `StateFlow<UiState>` (nunca variables mutables públicas) y usan
+  `sealed interface` de "fase" (Cargando / Contenido / Vacío / Error) para representar los
+  cuatro estados de interfaz exigidos por RF-08.
+- **Inyección de dependencias** con Koin: módulos declarados en `commonMain`
+  (`AppModule.kt`) e inicialización específica por plataforma (`MainApplication` en Android,
+  `MainViewController`/`Koinios` en iOS).
 
-- Android tests: `./gradlew :shared:testAndroidHostTest`
-- iOS tests: `./gradlew :shared:iosSimulatorArm64Test`
+## Cómo ejecutar
 
----
+- Android: `./gradlew :androidApp:assembleDebug` o el botón Run de Android Studio con el
+  run configuration `androidApp`.
+- iOS: abrir `/iosApp` en Xcode y ejecutar desde ahí (o usar el run configuration de KMP
+  en Android Studio/Fleet).
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## Reparto de trabajo del equipo
+
+- Rama `feature/dominio-contreras`: modelado del dominio (entidades, reglas de negocio,
+  casos de uso) e integración de la capa de datos simulada — Contreras.
+- (Completar con la funcionalidad y el integrante correspondiente antes de la entrega.)
+
+## Estado de las solicitudes de cambio (Parte II)
+
+Ninguna de las solicitudes SC-A a SC-D del examen está implementada todavía en esta rama;
+se desarrollan en vivo, cada una en su propia rama `sc-<letra>-<apellido>` creada a partir
+de `develop`.
