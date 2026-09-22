@@ -1,11 +1,12 @@
 package pe.edu.upeu.andinasalud.domain.model
 
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 import kotlin.time.Duration.Companion.hours
 
 data class Cita(
@@ -30,12 +31,13 @@ data class Cita(
     val fechaHora: LocalDateTime
         get() = LocalDateTime(fecha, hora)
 
+    @OptIn(ExperimentalTime::class)
     fun puedeCancelarse(
         ahora: Instant,
         zonaHoraria: TimeZone = TimeZone.currentSystemDefault()
     ): Boolean {
         if (estado !is EstadoCita.Programada) return false
-        val instanteCita = fechaHora.toInstant(zonaHoraria)
+        val instanteCita: Instant = fechaHora.toInstant(zonaHoraria)
         val tiempoRestante = instanteCita - ahora
         return tiempoRestante > HORAS_MINIMAS_CANCELACION.hours
     }
