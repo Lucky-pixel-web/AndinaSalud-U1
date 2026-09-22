@@ -20,6 +20,7 @@ val domainModule = module {
     factoryOf(::SolicitarCitaUseCase)
     factoryOf(::CancelarCitaUseCase)
 }
+
 val presentationModule = module {
 }
 
