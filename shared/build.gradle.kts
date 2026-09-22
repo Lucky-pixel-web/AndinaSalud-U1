@@ -19,7 +19,7 @@ kotlin {
     }
 
     android {
-       namespace = "pe.edu.upeu.bibliomobil.shared"
+       namespace = "pe.edu.upeu.andinasalud.shared"
        compileSdk = libs.versions.android.compileSdk.get().toInt()
        minSdk = libs.versions.android.minSdk.get().toInt()
 
@@ -60,10 +60,6 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
             implementation(compose.materialIconsExtended)
-
-            // api porque LibroViewModel/LectorViewModel se construyen con koinViewModel()
-            // ver los tipos de koin-compose-viewmodel en su firma pública; si fuera
-            // implementation, los módulos que dependan de "shared" no podrían
 
             api(libs.koin.core)
             api(libs.koin.compose)
