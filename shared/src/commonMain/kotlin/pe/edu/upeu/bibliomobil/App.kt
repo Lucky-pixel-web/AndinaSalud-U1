@@ -53,7 +53,9 @@ import pe.edu.upeu.bibliomobil.theme.PharmaMobilTheme
 
 @Composable
 fun App() = KoinContext {
+    KoinContext {
 
+    }
     var pantallaActual by remember {
         mutableStateOf<Screen>(Screen.Inicio)
     }

@@ -1,44 +1,43 @@
 package pe.edu.upeu.bibliomobil.di
 
-import org.koin.core.KoinApplication
-import org.koin.core.context.startKoin
-import org.koin.core.module.Module
-import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
-import pe.edu.upeu.bibliomobil.domain.usecase.ListarProductosUseCase
-import pe.edu.upeu.bibliomobil.domain.usecase.RegistrarClienteUseCase
-import pe.edu.upeu.bibliomobil.domain.usecase.RegistrarProductoUseCase
-import pe.edu.upeu.bibliomobil.presentation.cliente.ClienteViewModel
-
+import pe.edu.upeu.bibliomobil.data.repository.LectorRepositorioEnMemoria
+import pe.edu.upeu.bibliomobil.data.repository.LibroRepositorioEnMemoria
+import pe.edu.upeu.bibliomobil.domain.repository.LectorRepository
+import pe.edu.upeu.bibliomobil.domain.repository.LibroRepository
+import pe.edu.upeu.bibliomobil.domain.usecase.ListarLectoresUseCase
+import pe.edu.upeu.bibliomobil.domain.usecase.ListarLibrosUseCase
+import pe.edu.upeu.bibliomobil.domain.usecase.RegistrarLectorUseCase
+import pe.edu.upeu.bibliomobil.domain.usecase.RegistrarLibroUseCase
+import pe.edu.upeu.bibliomobil.presentation.lector.LectorViewModel
+import pe.edu.upeu.bibliomobil.presentation.libro.LibroViewModel
+import org.koin.core.context.startKoin
+import org.koin.dsl.KoinAppDeclaration
 
 val dataModule = module {
-    single<ProductoRepository> { ProductoRepositorioEnMemoria() }
-    single<ClienteRepository> { ClienteRepositorioEnMemoria() }
+    single<LibroRepository> { LibroRepositorioEnMemoria() }
+    single<LectorRepository> { LectorRepositorioEnMemoria() }
 }
 
 val domainModule = module {
-    factory { RegistrarProductoUseCase(get()) }
-    factory { ListarProductosUseCase(get()) }
-    factory { RegistrarClienteUseCase(get()) }
-    factory { ListarClientesUseCase(get()) }
+    factoryOf(::RegistrarLibroUseCase)
+    factoryOf(::ListarLibrosUseCase)
+    factoryOf(::RegistrarLectorUseCase)
+    factoryOf(::ListarLectoresUseCase)
 }
 
 val presentationModule = module {
-    viewModel { ProductoViewModel(get(), get()) }
-    viewModel { ClienteViewModel(get(), get()) }
+    factoryOf(::LibroViewModel)
+    factoryOf(::LectorViewModel)
 }
 
+expect val platformModule: org.koin.core.module.Module
 
-expect val platformModule: Module
-
-fun initKoin(configuracionAdicional: KoinApplication.() -> Unit = {}) {
+fun initKoin(config: KoinAppDeclaration? = null) {
     startKoin {
-        configuracionAdicional()
-        modules(
-            dataModule,
-            domainModule,
-            presentationModule,
-            platformModule
-        )
+        config?.invoke(this)
+        modules(dataModule, domainModule, presentationModule, platformModule)
     }
 }
