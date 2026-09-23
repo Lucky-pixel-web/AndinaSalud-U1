@@ -47,6 +47,11 @@ fun CitasScreen(
                     label = { Text(filtro.etiqueta) }
                 )
             }
+            FilterChip(
+                selected = estado.soloHoy,
+                onClick = { viewModel.onSoloHoyChange(!estado.soloHoy) },
+                label = { Text("Hoy") }
+            )
         }
 
         Spacer(Modifier.height(16.dp))

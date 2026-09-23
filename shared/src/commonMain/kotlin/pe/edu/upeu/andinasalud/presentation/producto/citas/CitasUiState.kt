@@ -18,5 +18,6 @@ data class CitasUiState(
     val fase: FaseCitas = FaseCitas.Cargando,
     val todasLasCitas: List<CitaUi> = emptyList(),
     val filtroEstado: FiltroEstado = FiltroEstado.TODAS,
-    val textoBusqueda: String = ""
+    val textoBusqueda: String = "",
+    val soloHoy: Boolean = false
 )
