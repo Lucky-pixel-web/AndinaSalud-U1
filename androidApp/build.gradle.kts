@@ -20,7 +20,7 @@ dependencies {
 }
 
 android {
-    namespace = "pe.edu.upeu.bibliomobil"
+    namespace = "pe.edu.upeu.andinasalud"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

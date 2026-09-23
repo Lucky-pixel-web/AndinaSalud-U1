@@ -1,4 +1,4 @@
-rootProject.name = "PharmaMobil"
+rootProject.name = "AndinaSalud"
 
 pluginManagement {
     repositories {

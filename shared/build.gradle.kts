@@ -19,7 +19,7 @@ kotlin {
     }
 
     android {
-       namespace = "pe.edu.upeu.bibliomobil.shared"
+       namespace = "pe.edu.upeu.andinasalud.shared"
        compileSdk = libs.versions.android.compileSdk.get().toInt()
        minSdk = libs.versions.android.minSdk.get().toInt()
 
@@ -60,14 +60,17 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
             implementation(compose.materialIconsExtended)
-            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kotlinx.datetime)
+
             api(libs.koin.core)
             api(libs.koin.compose)
             api(libs.koin.compose.viewmodel)
+
+            implementation(compose.materialIconsExtended)
+            implementation(libs.androidx.lifecycle.viewmodel)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
-            implementation(libs.kotlinx.coroutines.test)
             implementation(libs.kotlinx.coroutines.test)
         }
     }
