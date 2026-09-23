@@ -1,0 +1,37 @@
+* [33md92ac0d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/dominio-contreras[m[33m, [m[1;31morigin/feature/dominio-contreras[m[33m)[m Commit 8.2
+* [33m5bab5e8[m Commit 8.1
+* [33mb4dd332[m Commit 8
+* [33m3ae56db[m Commit 7.1 Prueba C
+* [33m0abd648[m feat(navegacion): agrega Scaffold con barra inferior y navegacion completa RF-07
+* [33m433d341[m feat(inicio): agrega InicioScreen con saludo, proxima cita y accesos rapidos RF-01
+* [33m53033b4[m feat(perfil): agrega PerfilScreen con datos del paciente y conmutador de tema RF-06
+* [33m9496223[m feat(solicitud): agrega formulario de solicitud de cita con validacion RN-01 y RN-04
+* [33mbbea3bd[m feat(detalle): agrega DetalleCitaViewModel y DetalleCitaScreen con cancelacion RN-03
+* [33mebf78ac[m feat(citas): agrega CitasViewModel y CitasScreen con filtro por estado y busqueda
+* [33m4f03468[m style(tema): agrega AndinaSaludTheme con paleta propia y soporte claro/oscuro completo
+* [33m2893735[m feat(di): configura modulos de Koin para datos y dominio, con arranque en Android e iOS
+* [33m02aba50[m feat(datos): agrega fuente simulada CitasSimuladas y repositorio CitaRepositoryFake con retardo de 800ms
+* [33m9f5b5fd[m feat(dominio): modela Paciente, Sede, Medico, EstadoCita y Cita con las reglas RN-01 y RN-04
+* [33m0e1d357[m[33m ([m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m refactor(proyecto): renombra paquete a pe.upeu.andinasalud
+* [33m6019afb[m refactor(proyecto): renombra paquete a pe.upeu.andinasalud
+* [33m04db823[m[33m ([m[1;32mfeature/clean-mvvm[m[33m)[m Commit 7.1 Prueba C
+* [33m1b20deb[m Agrega modulo de Lectores: UiState, ViewModel y Screen
+* [33m388c35d[m Agrega modulo de Libros: UiState, ViewModel, Screen y componentes reutilizables
+* [33m8a98322[m Implementa repositorios en memoria de Libro y Lector con Mutex y latencia simulada
+* [33m63e9fec[m Agregar casos de uso de registro y listado para Libro y Lector
+* [33mc58800a[m Agrega modelos y repositorios del dominio de BiblioMobil
+* [33m737b411[m Agrega dependencias de Koin, iconos, lifecycle y coroutines-test
+* [33m42e2c91[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m Configura paquete bibliomobil y agrega dependencias de Koin, lifecycle y coroutines-test
+* [33mf13c4d3[m Commit 7 Prueba de flujo de Producto con repo falso
+* [33mdcd34d1[m Commit 6 "Modulo Cliente en Clean+MVVM y mejorar Productos/Clientes"
+* [33m003b99e[m Reorganizar modulo Productos en capas Clean + MVVM con Koin
+* [33mbea074f[m[33m ([m[1;32mmaster[m[33m)[m Commit 5 Ampliar Navegacion y Theme de PharmaMobil
+* [33m9b873fc[m Commit 4 Implementacion de Pantalla de Animacion + Mejora de interfaz en la aplicacion
+* [33mb75dbc8[m Commit 3 Boton de Registro y Arreglo de Validaciones (C & P)
+* [33m9ac7c07[m Commit 2 Validacion Telefono y Nombre(P & C)
+* [33me7001f8[m Commit 1.1 - Producto
+* [33m3506107[m Commit 1 - Cliente y Producto
+* [33m18ccccd[m Agregado de corrutinas y flujo de productos
+* [33m1940488[m PharmaMovil 4
+* [33md8a6df6[m PharmaMovil 3
+* [33m62ab773[m Proyecto Ba1

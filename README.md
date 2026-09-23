@@ -52,14 +52,9 @@ shared/src/commonMain/kotlin/pe/edu/upeu/andinasalud/
 - iOS: abrir `/iosApp` en Xcode y ejecutar desde ahí (o usar el run configuration de KMP
   en Android Studio/Fleet).
 
-## Reparto de trabajo del equipo
+## Autoría
 
-- Rama `feature/dominio-contreras`: modelado del dominio (entidades, reglas de negocio,
-  casos de uso) e integración de la capa de datos simulada — Contreras.
-- (Completar con la funcionalidad y el integrante correspondiente antes de la entrega.)
-
-## Estado de las solicitudes de cambio (Parte II)
-
-Ninguna de las solicitudes SC-A a SC-D del examen está implementada todavía en esta rama;
-se desarrollan en vivo, cada una en su propia rama `sc-<letra>-<apellido>` creada a partir
-de `develop`.
+Examen individual. Todo el desarrollo de la Parte I (dominio, datos simulados,
+casos de uso, presentación, navegación, tema e inyección de dependencias) fue
+realizado en la rama `feature/dominio-contreras`, fusionada a `develop` y luego
+a `main`.
