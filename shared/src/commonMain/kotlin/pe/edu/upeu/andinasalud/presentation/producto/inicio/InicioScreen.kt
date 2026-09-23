@@ -13,6 +13,7 @@ fun InicioScreen(
     viewModel: InicioViewModel,
     onVerCitas: () -> Unit,
     onSolicitarCita: () -> Unit,
+    limiteAlcanzado: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     val estado by viewModel.uiState.collectAsStateWithLifecycle()
@@ -41,7 +42,13 @@ fun InicioScreen(
 
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             OutlinedButton(onClick = onVerCitas) { Text("Mis citas") }
-            Button(onClick = onSolicitarCita) { Text("Solicitar cita") }
+            Button(onClick = onSolicitarCita, enabled = !limiteAlcanzado) { Text("Solicitar cita") }
+        }
+        if (limiteAlcanzado) {
+            Text(
+                "Alcanzaste el límite de citas programadas",
+                style = MaterialTheme.typography.bodySmall
+            )
         }
     }
 }

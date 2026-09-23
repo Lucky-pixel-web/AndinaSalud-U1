@@ -22,6 +22,7 @@ fun AppNavHost(
     padding: PaddingValues,
     darkTheme: Boolean,
     onDarkThemeChange: (Boolean) -> Unit,
+    limiteAlcanzado: Boolean,
     navegar: (Screen) -> Unit,
     irATab: (Screen) -> Unit,
     atras: () -> Unit
@@ -31,6 +32,7 @@ fun AppNavHost(
             viewModel = koinViewModel<InicioViewModel>(),
             onVerCitas = { irATab(Screen.Citas) },
             onSolicitarCita = { navegar(Screen.Solicitud) },
+            limiteAlcanzado = limiteAlcanzado,
             modifier = Modifier.padding(padding)
         )
         is Screen.Citas -> CitasScreen(
