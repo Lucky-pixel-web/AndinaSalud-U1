@@ -3,6 +3,7 @@ package pe.edu.upeu.andinasalud.presentation.citas
 import kotlinx.datetime.LocalDate
 import pe.edu.upeu.andinasalud.domain.model.Cita
 import pe.edu.upeu.andinasalud.domain.model.EstadoCita
+import pe.edu.upeu.andinasalud.domain.model.ModalidadAtencion
 
 data class CitaUi(
     val id: Int,
@@ -13,6 +14,7 @@ data class CitaUi(
     val fechaTexto: String,
     val horaTexto: String,
     val estadoTexto: String,
+    val modalidad: ModalidadAtencion,
     val estado: EstadoCita
 )
 
@@ -25,9 +27,9 @@ fun Cita.aUi(): CitaUi {
     return CitaUi(
         id = id, especialidad = especialidad, medico = medico, sede = sede,
         fecha = fecha,
-        fechaTexto = "${fecha.dayOfMonth.toString().padStart(2, '0')}/${fecha.monthNumber.toString().padStart(2, '0')}/${fecha.year}",
-        horaTexto = "${hora.hour.toString().padStart(2, '0')}:${hora.minute.toString().padStart(2, '0')}",
+        fechaTexto = "...", horaTexto = "...",
         estadoTexto = estadoTexto,
+        modalidad = modalidad,
         estado = estado
     )
 }

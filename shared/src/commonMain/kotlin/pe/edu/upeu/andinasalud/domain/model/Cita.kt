@@ -17,6 +17,7 @@ data class Cita(
     val fecha: LocalDate,
     val hora: LocalTime,
     val motivo: String,
+    val modalidad: ModalidadAtencion,
     val estado: EstadoCita
 ) {
     init {

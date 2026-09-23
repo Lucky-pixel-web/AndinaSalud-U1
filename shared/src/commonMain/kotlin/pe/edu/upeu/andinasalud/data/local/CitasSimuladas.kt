@@ -7,6 +7,7 @@ import pe.edu.upeu.andinasalud.domain.model.EstadoCita
 import pe.edu.upeu.andinasalud.domain.model.Medico
 import pe.edu.upeu.andinasalud.domain.model.Paciente
 import pe.edu.upeu.andinasalud.domain.model.Sede
+import pe.edu.upeu.andinasalud.domain.model.ModalidadAtencion
 
 object CitasSimuladas {
 
@@ -41,8 +42,6 @@ object CitasSimuladas {
         Medico(10, "Ps. Diana Vega", "Psicología", listOf(sedes[2]))
     )
 
-    // Nota: ajusta estas fechas para que las "Programadas" queden siempre en el
-    // futuro respecto al día real en que sustentes el examen (así lo pide el PDF).
     val citasIniciales = listOf(
         Cita(
             id = 1,
@@ -52,6 +51,7 @@ object CitasSimuladas {
             fecha = LocalDate(2026, 10, 5),
             hora = LocalTime(9, 0),
             motivo = "Control general de presión arterial y chequeo de rutina",
+            modalidad = ModalidadAtencion.PRESENCIAL,
             estado = EstadoCita.Programada(recordatorioActivo = true)
         ),
         Cita(
@@ -62,6 +62,7 @@ object CitasSimuladas {
             fecha = LocalDate(2026, 10, 8),
             hora = LocalTime(16, 30),
             motivo = "Revisión y limpieza dental programada",
+            modalidad = ModalidadAtencion.TELECONSULTA,
             estado = EstadoCita.Programada(recordatorioActivo = false)
         ),
         Cita(
@@ -72,6 +73,7 @@ object CitasSimuladas {
             fecha = LocalDate(2026, 10, 12),
             hora = LocalTime(11, 15),
             motivo = "Seguimiento de plan nutricional mensual",
+            modalidad = ModalidadAtencion.PRESENCIAL,
             estado = EstadoCita.Programada(recordatorioActivo = true)
         ),
         Cita(
@@ -82,6 +84,7 @@ object CitasSimuladas {
             fecha = LocalDate(2026, 8, 30),
             hora = LocalTime(8, 45),
             motivo = "Control de crecimiento y desarrollo del niño",
+            modalidad = ModalidadAtencion.PRESENCIAL,
             estado = EstadoCita.Atendida("Control en tres meses")
         ),
         Cita(
@@ -92,6 +95,7 @@ object CitasSimuladas {
             fecha = LocalDate(2026, 9, 2),
             hora = LocalTime(15, 0),
             motivo = "Sesión de seguimiento terapéutico quincenal",
+            modalidad = ModalidadAtencion.TELECONSULTA,
             estado = EstadoCita.Atendida("Continuar sesiones quincenales")
         ),
         Cita(
@@ -102,6 +106,7 @@ object CitasSimuladas {
             fecha = LocalDate(2026, 9, 5),
             hora = LocalTime(10, 30),
             motivo = "Consulta general por síntomas gripales leves",
+            modalidad = ModalidadAtencion.PRESENCIAL,
             estado = EstadoCita.Cancelada("Viaje del paciente", canceladaPorPaciente = true)
         )
     )

@@ -37,8 +37,8 @@ fun DetalleCitaScreen(viewModel: DetalleCitaViewModel, modifier: Modifier = Modi
                     Text("Sede: ${cita.sede}")
                     Text("Fecha: ${cita.fechaTexto}  ·  Hora: ${cita.horaTexto}")
                     Text("Estado: ${cita.estadoTexto}")
+                    Text("Modalidad: ${cita.modalidad.etiqueta}")
 
-                    // RF-03: indicaciones del estado (varían según el tipo de estado).
                     when (val e = cita.estado) {
                         is EstadoCita.Atendida -> Text("Indicaciones: ${e.indicaciones}")
                         is EstadoCita.Cancelada -> Text("Motivo de cancelación: ${e.motivo}")

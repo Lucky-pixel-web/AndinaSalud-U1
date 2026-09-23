@@ -6,7 +6,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.ErrorOutline
+import androidx.compose.material.icons.filled.LocalHospital
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Videocam
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -14,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import pe.edu.upeu.andinasalud.domain.model.ModalidadAtencion
 
 @Composable
 fun CitasScreen(
@@ -87,9 +90,21 @@ fun CitasScreen(
                             Column(Modifier.padding(12.dp)) {
                                 Row(
                                     horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically,
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
-                                    Text(cita.especialidad, style = MaterialTheme.typography.titleMedium)
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Icon(
+                                            imageVector = if (cita.modalidad == ModalidadAtencion.PRESENCIAL)
+                                                Icons.Default.LocalHospital
+                                            else
+                                                Icons.Default.Videocam,
+                                            contentDescription = cita.modalidad.etiqueta,
+                                            modifier = Modifier.size(20.dp)
+                                        )
+                                        Spacer(Modifier.width(6.dp))
+                                        Text(cita.especialidad, style = MaterialTheme.typography.titleMedium)
+                                    }
                                     AssistChip(onClick = {}, label = { Text(cita.estadoTexto) })
                                 }
                                 Text(cita.medico, style = MaterialTheme.typography.bodyMedium)

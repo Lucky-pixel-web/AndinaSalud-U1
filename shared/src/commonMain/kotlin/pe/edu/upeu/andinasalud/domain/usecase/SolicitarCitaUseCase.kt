@@ -11,6 +11,7 @@ import kotlinx.datetime.toInstant
 import pe.edu.upeu.andinasalud.domain.model.Cita
 import pe.edu.upeu.andinasalud.domain.model.EstadoCita
 import pe.edu.upeu.andinasalud.domain.repository.CitaRepository
+import pe.edu.upeu.andinasalud.domain.model.ModalidadAtencion
 
 @OptIn(ExperimentalTime::class)
 class SolicitarCitaUseCase(private val citaRepository: CitaRepository) {
@@ -21,6 +22,7 @@ class SolicitarCitaUseCase(private val citaRepository: CitaRepository) {
         fecha: String,
         hora: String,
         motivo: String,
+        modalidad: ModalidadAtencion?,
         ahora: Instant = Clock.System.now(),
         zonaHoraria: TimeZone = TimeZone.currentSystemDefault()
     ): Result<Cita> = resultadoDe {
@@ -57,19 +59,21 @@ class SolicitarCitaUseCase(private val citaRepository: CitaRepository) {
             }
         }
 
+        val errorModalidad = if (modalidad == null) "Selecciona una modalidad de atención" else null
+
         val errores = ErroresSolicitudCita(
             especialidad = errorEspecialidad,
             sede = errorSede,
             fecha = errorFecha ?: errorRN01,
             hora = errorHora,
-            motivo = errorMotivo
+            motivo = errorMotivo,
+            modalidad = errorModalidad
         )
         if (errores.tieneErrores) throw SolicitudCitaInvalidaException(errores)
 
         val citasActuales = citaRepository.obtenerCitas()
         val programadas = citasActuales.filter { it.estado is EstadoCita.Programada }
 
-        // RN-02: máximo 3 citas Programadas simultáneas.
         if (programadas.size >= LIMITE_PROGRAMADAS) {
             throw SolicitudCitaInvalidaException(
                 ErroresSolicitudCita(
@@ -78,7 +82,6 @@ class SolicitarCitaUseCase(private val citaRepository: CitaRepository) {
             )
         }
 
-        // RN-05: no dos citas Programadas el mismo día y la misma hora.
         val yaExisteEnEseHorario = programadas.any {
             it.fecha == fechaParseada && it.hora == horaParseada
         }
@@ -100,9 +103,9 @@ class SolicitarCitaUseCase(private val citaRepository: CitaRepository) {
             fecha = fechaParseada!!,
             hora = horaParseada!!,
             motivo = motivo.trim(),
+            modalidad = modalidad!!,
             estado = EstadoCita.Programada(recordatorioActivo = true)
         )
-
         citaRepository.agregarCita(nuevaCita)
     }
 

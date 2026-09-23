@@ -1,13 +1,17 @@
 package pe.edu.upeu.andinasalud.presentation.solicitud
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocalHospital
+import androidx.compose.material.icons.filled.Videocam
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import pe.edu.upeu.andinasalud.domain.model.ModalidadAtencion
 
 @Composable
 fun SolicitudScreen(
@@ -61,6 +65,29 @@ fun SolicitudScreen(
             supportingText = { f.errorMotivo?.let { Text(it) } },
             minLines = 3, modifier = Modifier.fillMaxWidth()
         )
+
+        Text("Modalidad de atención", style = MaterialTheme.typography.labelLarge)
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            ModalidadAtencion.entries.forEach { opcion ->
+                FilterChip(
+                    selected = f.modalidad == opcion,
+                    onClick = { viewModel.onModalidadChange(opcion) },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = if (opcion == ModalidadAtencion.PRESENCIAL)
+                                Icons.Default.LocalHospital
+                            else
+                                Icons.Default.Videocam,
+                            contentDescription = null
+                        )
+                    },
+                    label = { Text(opcion.etiqueta) }
+                )
+            }
+        }
+        f.errorModalidad?.let {
+            Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+        }
 
         Button(
             onClick = viewModel::enviar,

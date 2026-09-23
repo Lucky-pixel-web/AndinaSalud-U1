@@ -5,10 +5,11 @@ data class ErroresSolicitudCita(
     val sede: String? = null,
     val fecha: String? = null,
     val hora: String? = null,
-    val motivo: String? = null
+    val motivo: String? = null,
+    val modalidad: String? = null
 ) {
     val tieneErrores: Boolean
-        get() = listOfNotNull(especialidad, sede, fecha, hora, motivo).isNotEmpty()
+        get() = listOfNotNull(especialidad, sede, fecha, hora, motivo, modalidad).isNotEmpty()
 }
 
 class SolicitudCitaInvalidaException(val errores: ErroresSolicitudCita) :
