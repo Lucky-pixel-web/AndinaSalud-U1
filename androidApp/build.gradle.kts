@@ -24,7 +24,7 @@ android {
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "pe.edu.upeu.pharmamobil"
+        applicationId = "pe.edu.upeu.andinasalud"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
