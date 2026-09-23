@@ -58,3 +58,17 @@ Examen individual. Todo el desarrollo de la Parte I (dominio, datos simulados,
 casos de uso, presentación, navegación, tema e inyección de dependencias) fue
 realizado en la rama `feature/dominio-contreras`, fusionada a `develop` y luego
 a `main`.
+
+## Solicitud de cambio (Parte II)
+
+Con autorización del docente, se implementaron las siguientes solicitudes de cambio
+sobre el producto de la Parte I:
+
+- **SC-A**: chip "Hoy" en la lista de citas, combinado con el filtro de estado
+  existente. Resuelto en `CitasViewModel.aplicarFiltros()`.
+- **SC-B**: indicador con el número de citas Programadas en la barra de navegación
+  inferior, y botón "Solicitar cita" deshabilitado al llegar al límite de tres
+  (RN-02). Resuelto con `ContarCitasProgramadasUseCase`, leído desde `App.kt`.
+- **SC-C**: modalidad de atención (Presencial / Teleconsulta) incorporada al
+  dominio (`Cita.modalidad`), al formulario de solicitud, al detalle y a la lista,
+  con ícono distinto por modalidad.
