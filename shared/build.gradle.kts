@@ -60,6 +60,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
             implementation(compose.materialIconsExtended)
+            implementation(libs.kotlinx.datetime)
 
             api(libs.koin.core)
             api(libs.koin.compose)
