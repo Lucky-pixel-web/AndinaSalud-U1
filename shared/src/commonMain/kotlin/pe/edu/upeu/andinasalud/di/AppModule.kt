@@ -15,6 +15,7 @@ import pe.edu.upeu.andinasalud.domain.usecase.ObtenerCatalogosUseCase
 import pe.edu.upeu.andinasalud.presentation.solicitud.SolicitudViewModel
 import pe.edu.upeu.andinasalud.presentation.inicio.InicioViewModel
 import pe.edu.upeu.andinasalud.domain.usecase.ContarCitasProgramadasUseCase
+import pe.edu.upeu.andinasalud.domain.usecase.ObtenerPacienteUseCase
 
 val dataModule = module {
     single<CitaRepository> { CitaRepositoryFake() }
@@ -26,6 +27,7 @@ val domainModule = module {
     factoryOf(::CancelarCitaUseCase)
     factoryOf(::ObtenerCatalogosUseCase)
     factoryOf(::ContarCitasProgramadasUseCase)
+    factoryOf(::ObtenerPacienteUseCase)
 }
 
 val presentationModule = module {
