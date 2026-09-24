@@ -17,6 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import pe.edu.upeu.andinasalud.domain.model.ModalidadAtencion
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.runtime.remember
+import androidx.compose.ui.draw.scale
 
 @Composable
 fun CitasScreen(
@@ -83,9 +88,16 @@ fun CitasScreen(
 
                 is FaseCitas.ConCitas -> LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     items(fase.citas, key = { it.id }) { cita ->
+                        val interactionSource = remember { MutableInteractionSource() }
+                        val presionado by interactionSource.collectIsPressedAsState()
+                        val escala by animateFloatAsState(
+                            targetValue = if (presionado) 0.97f else 1f,
+                            label = "escala-tarjeta"
+                        )
                         Card(
                             onClick = { onCitaClick(cita.id) },
-                            modifier = Modifier.fillMaxWidth()
+                            interactionSource = interactionSource,
+                            modifier = Modifier.fillMaxWidth().scale(escala)
                         ) {
                             Column(Modifier.padding(12.dp)) {
                                 Row(

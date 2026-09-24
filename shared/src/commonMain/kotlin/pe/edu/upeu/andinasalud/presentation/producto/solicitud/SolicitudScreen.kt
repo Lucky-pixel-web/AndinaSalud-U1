@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import pe.edu.upeu.andinasalud.domain.model.ModalidadAtencion
+import androidx.compose.animation.AnimatedVisibility
 
 @Composable
 fun SolicitudScreen(
@@ -85,8 +86,8 @@ fun SolicitudScreen(
                 )
             }
         }
-        f.errorModalidad?.let {
-            Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+        AnimatedVisibility(visible = f.errorModalidad != null) {
+            Text(f.errorModalidad ?: "", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
         }
 
         Button(

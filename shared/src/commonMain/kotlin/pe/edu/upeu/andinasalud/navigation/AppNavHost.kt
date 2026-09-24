@@ -1,7 +1,14 @@
 package pe.edu.upeu.andinasalud.navigation
 
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.koin.compose.viewmodel.koinViewModel
@@ -27,34 +34,43 @@ fun AppNavHost(
     irATab: (Screen) -> Unit,
     atras: () -> Unit
 ) {
-    when (actual) {
-        is Screen.Inicio -> InicioScreen(
-            viewModel = koinViewModel<InicioViewModel>(),
-            onVerCitas = { irATab(Screen.Citas) },
-            onSolicitarCita = { navegar(Screen.Solicitud) },
-            limiteAlcanzado = limiteAlcanzado,
-            modifier = Modifier.padding(padding)
-        )
-        is Screen.Citas -> CitasScreen(
-            viewModel = koinViewModel<CitasViewModel>(),
-            onCitaClick = { id -> navegar(Screen.Detalle(id)) },
-            modifier = Modifier.padding(padding)
-        )
-        is Screen.Detalle -> DetalleCitaScreen(
-            viewModel = koinViewModel<DetalleCitaViewModel>(
-                parameters = { parametersOf(actual.citaId) }
-            ),
-            modifier = Modifier.padding(padding)
-        )
-        is Screen.Solicitud -> SolicitudScreen(
-            viewModel = koinViewModel<SolicitudViewModel>(),
-            onSolicitudExitosa = { atras() },
-            modifier = Modifier.padding(padding)
-        )
-        is Screen.Perfil -> PerfilScreen(
-            darkTheme = darkTheme,
-            onDarkThemeChange = onDarkThemeChange,
-            modifier = Modifier.padding(padding)
-        )
+    AnimatedContent(
+        targetState = actual,
+        transitionSpec = {
+            (slideInHorizontally(animationSpec = tween(280)) { ancho -> ancho / 4 } + fadeIn(tween(280)))
+                .togetherWith(slideOutHorizontally(animationSpec = tween(200)) { ancho -> -ancho / 4 } + fadeOut(tween(200)))
+        },
+        label = "navegacion-pantallas"
+    ) { pantalla ->
+        when (pantalla) {
+            is Screen.Inicio -> InicioScreen(
+                viewModel = koinViewModel<InicioViewModel>(),
+                onVerCitas = { irATab(Screen.Citas) },
+                onSolicitarCita = { navegar(Screen.Solicitud) },
+                limiteAlcanzado = limiteAlcanzado,
+                modifier = Modifier.padding(padding)
+            )
+            is Screen.Citas -> CitasScreen(
+                viewModel = koinViewModel<CitasViewModel>(),
+                onCitaClick = { id -> navegar(Screen.Detalle(id)) },
+                modifier = Modifier.padding(padding)
+            )
+            is Screen.Detalle -> DetalleCitaScreen(
+                viewModel = koinViewModel<DetalleCitaViewModel>(
+                    parameters = { parametersOf(pantalla.citaId) }
+                ),
+                modifier = Modifier.padding(padding)
+            )
+            is Screen.Solicitud -> SolicitudScreen(
+                viewModel = koinViewModel<SolicitudViewModel>(),
+                onSolicitudExitosa = { atras() },
+                modifier = Modifier.padding(padding)
+            )
+            is Screen.Perfil -> PerfilScreen(
+                darkTheme = darkTheme,
+                onDarkThemeChange = onDarkThemeChange,
+                modifier = Modifier.padding(padding)
+            )
+        }
     }
 }
