@@ -16,6 +16,7 @@ import pe.edu.upeu.andinasalud.presentation.solicitud.SolicitudViewModel
 import pe.edu.upeu.andinasalud.presentation.inicio.InicioViewModel
 import pe.edu.upeu.andinasalud.domain.usecase.ContarCitasProgramadasUseCase
 import pe.edu.upeu.andinasalud.domain.usecase.ObtenerPacienteUseCase
+import pe.edu.upeu.andinasalud.domain.usecase.ReprogramarCitaUseCase
 
 val dataModule = module {
     single<CitaRepository> { CitaRepositoryFake() }
@@ -28,13 +29,15 @@ val domainModule = module {
     factoryOf(::ObtenerCatalogosUseCase)
     factoryOf(::ContarCitasProgramadasUseCase)
     factoryOf(::ObtenerPacienteUseCase)
+    factoryOf(::ReprogramarCitaUseCase)
 }
 
 val presentationModule = module {
     factoryOf(::CitasViewModel)
-    factory { (citaId: Int) -> DetalleCitaViewModel(citaId, get(), get()) }
+    factory { (citaId: Int) -> DetalleCitaViewModel(citaId, get(), get(), get()) }
     factoryOf(::SolicitudViewModel)
     factoryOf(::InicioViewModel)
+
 }
 
 expect val platformModule: org.koin.core.module.Module

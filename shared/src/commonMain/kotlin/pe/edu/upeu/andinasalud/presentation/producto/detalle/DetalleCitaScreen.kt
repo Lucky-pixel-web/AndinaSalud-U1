@@ -8,7 +8,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import pe.edu.upeu.andinasalud.domain.model.EstadoCita
 
 @Composable
 fun DetalleCitaScreen(viewModel: DetalleCitaViewModel, modifier: Modifier = Modifier) {
@@ -36,25 +35,24 @@ fun DetalleCitaScreen(viewModel: DetalleCitaViewModel, modifier: Modifier = Modi
                     Text("Médico: ${cita.medico}")
                     Text("Sede: ${cita.sede}")
                     Text("Fecha: ${cita.fechaTexto}  ·  Hora: ${cita.horaTexto}")
-                    Text("Estado: ${cita.estadoTexto}")
                     Text("Modalidad: ${cita.modalidad.etiqueta}")
-
-                    when (val e = cita.estado) {
-                        is EstadoCita.Atendida -> Text("Indicaciones: ${e.indicaciones}")
-                        is EstadoCita.Cancelada -> Text("Motivo de cancelación: ${e.motivo}")
-                        is EstadoCita.Programada -> Text(
-                            if (e.recordatorioActivo) "Recordatorio activado" else "Recordatorio desactivado"
-                        )
-                    }
-
+                    Text("Estado: ${cita.estadoTexto}")
                     Spacer(Modifier.height(24.dp))
+
                     if (cita.estadoTexto == "Programada") {
-                        Button(
-                            onClick = viewModel::onCancelarClick,
-                            enabled = !estado.cancelando,
-                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
-                        ) {
-                            Text(if (estado.cancelando) "Cancelando…" else "Cancelar cita")
+                        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                            OutlinedButton(
+                                onClick = viewModel::onReprogramarClick,
+                                enabled = !estado.reprogramando
+                            ) { Text("Reprogramar") }
+
+                            Button(
+                                onClick = viewModel::onCancelarClick,
+                                enabled = !estado.cancelando,
+                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                            ) {
+                                Text(if (estado.cancelando) "Cancelando…" else "Cancelar cita")
+                            }
                         }
                     }
                     estado.mensajeError?.let {
@@ -70,12 +68,38 @@ fun DetalleCitaScreen(viewModel: DetalleCitaViewModel, modifier: Modifier = Modi
                 onDismissRequest = viewModel::onDescartarDialogo,
                 title = { Text("Cancelar cita") },
                 text = { Text("¿Seguro que deseas cancelar esta cita? Esta acción no se puede deshacer.") },
-                confirmButton = {
-                    TextButton(onClick = viewModel::onConfirmarCancelacion) { Text("Sí, cancelar") }
+                confirmButton = { TextButton(onClick = viewModel::onConfirmarCancelacion) { Text("Sí, cancelar") } },
+                dismissButton = { TextButton(onClick = viewModel::onDescartarDialogo) { Text("Volver") } }
+            )
+        }
+
+        if (estado.mostrarDialogoReprogramar) {
+            val f = estado.formularioReprogramar
+            AlertDialog(
+                onDismissRequest = viewModel::onDescartarReprogramar,
+                title = { Text("Reprogramar cita") },
+                text = {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        OutlinedTextField(
+                            value = f.fecha, onValueChange = viewModel::onFechaReprogramarChange,
+                            label = { Text("Nueva fecha (AAAA-MM-DD)") },
+                            isError = f.errorFecha != null,
+                            supportingText = { f.errorFecha?.let { Text(it) } }
+                        )
+                        OutlinedTextField(
+                            value = f.hora, onValueChange = viewModel::onHoraReprogramarChange,
+                            label = { Text("Nueva hora (HH:MM)") },
+                            isError = f.errorHora != null,
+                            supportingText = { f.errorHora?.let { Text(it) } }
+                        )
+                    }
                 },
-                dismissButton = {
-                    TextButton(onClick = viewModel::onDescartarDialogo) { Text("Volver") }
-                }
+                confirmButton = {
+                    TextButton(onClick = viewModel::onConfirmarReprogramar, enabled = !estado.reprogramando) {
+                        Text(if (estado.reprogramando) "Guardando…" else "Confirmar")
+                    }
+                },
+                dismissButton = { TextButton(onClick = viewModel::onDescartarReprogramar) { Text("Cancelar") } }
             )
         }
     }
