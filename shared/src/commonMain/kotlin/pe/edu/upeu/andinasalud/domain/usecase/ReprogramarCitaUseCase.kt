@@ -23,17 +23,28 @@ class ReprogramarCitaUseCase(private val citaRepository: CitaRepository) {
         ahora: Instant = Clock.System.now(),
         zonaHoraria: TimeZone = TimeZone.currentSystemDefault()
     ): Result<Cita> = resultadoDe {
-        // Reutiliza la MISMA validación de fecha/hora que usa SolicitarCitaUseCase.
+
         val validado = ValidacionesCita.validarFechaHora(nuevaFecha, nuevaHora, ahora, zonaHoraria)
         if (validado.errorFecha != null || validado.errorHora != null) {
             throw ReprogramarCitaInvalidaException(validado.errorFecha, validado.errorHora)
         }
 
-        val cita = citaRepository.obtenerCitas().firstOrNull { it.id == citaId }
+        val todasLasCitas = citaRepository.obtenerCitas()
+        val cita = todasLasCitas.firstOrNull { it.id == citaId }
             ?: throw NoSuchElementException("La cita no existe")
 
         if (cita.estado !is EstadoCita.Programada) {
             throw ReprogramarCitaInvalidaException("Solo puede reprogramarse una cita Programada", null)
+        }
+
+        val choqueDeHorario = todasLasCitas.any {
+            it.id != citaId &&
+                    it.estado is EstadoCita.Programada &&
+                    it.fecha == validado.fecha &&
+                    it.hora == validado.hora
+        }
+        if (choqueDeHorario) {
+            throw ReprogramarCitaInvalidaException(null, "Ya tienes una cita programada en esa fecha y hora")
         }
 
         val citaActualizada = cita.copy(fecha = validado.fecha!!, hora = validado.hora!!)
