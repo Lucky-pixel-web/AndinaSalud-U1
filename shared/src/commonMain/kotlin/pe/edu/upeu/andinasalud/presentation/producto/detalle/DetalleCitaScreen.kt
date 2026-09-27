@@ -8,10 +8,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-
+import androidx.compose.runtime.LaunchedEffect
 @Composable
-fun DetalleCitaScreen(viewModel: DetalleCitaViewModel, modifier: Modifier = Modifier) {
+fun DetalleCitaScreen(
+    viewModel: DetalleCitaViewModel,
+    onDatosCambiaron: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
     val estado by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(estado.fase) {
+        if (estado.fase is FaseDetalle.Contenido) onDatosCambiaron()
+    }
 
     Box(modifier = modifier.fillMaxSize()) {
         when (val fase = estado.fase) {

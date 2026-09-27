@@ -70,7 +70,8 @@ fun App() = KoinContext {
                 limiteAlcanzado = limiteAlcanzado,
                 navegar = ::navegar,
                 irATab = { destino -> irATab(destino); trigger++ },
-                atras = { atras(); trigger++ }
+                atras = { atras(); trigger++ },
+                onDatosCambiaron = { trigger++ }
             )
         }
     }

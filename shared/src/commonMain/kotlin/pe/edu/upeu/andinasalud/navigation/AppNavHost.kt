@@ -32,7 +32,8 @@ fun AppNavHost(
     limiteAlcanzado: Boolean,
     navegar: (Screen) -> Unit,
     irATab: (Screen) -> Unit,
-    atras: () -> Unit
+    atras: () -> Unit,
+    onDatosCambiaron: () -> Unit
 ) {
     AnimatedContent(
         targetState = actual,
@@ -60,11 +61,13 @@ fun AppNavHost(
                     key = "detalle-cita-${pantalla.citaId}",
                     parameters = { parametersOf(pantalla.citaId) }
                 ),
+                onDatosCambiaron = onDatosCambiaron,
                 modifier = Modifier.padding(padding)
             )
             is Screen.Solicitud -> SolicitudScreen(
                 viewModel = koinViewModel<SolicitudViewModel>(),
                 onSolicitudExitosa = { atras() },
+                onDatosCambiaron = onDatosCambiaron,
                 modifier = Modifier.padding(padding)
             )
             is Screen.Perfil -> PerfilScreen(

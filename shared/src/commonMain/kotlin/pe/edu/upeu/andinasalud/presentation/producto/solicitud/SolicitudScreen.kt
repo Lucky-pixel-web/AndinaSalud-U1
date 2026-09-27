@@ -18,6 +18,7 @@ import androidx.compose.animation.AnimatedVisibility
 fun SolicitudScreen(
     viewModel: SolicitudViewModel,
     onSolicitudExitosa: () -> Unit,
+    onDatosCambiaron: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val estado by viewModel.uiState.collectAsStateWithLifecycle()
@@ -26,6 +27,7 @@ fun SolicitudScreen(
     LaunchedEffect(estado.exito) {
         if (estado.exito) {
             onSolicitudExitosa()
+            onDatosCambiaron()
             viewModel.onExitoMostrado()
         }
     }
