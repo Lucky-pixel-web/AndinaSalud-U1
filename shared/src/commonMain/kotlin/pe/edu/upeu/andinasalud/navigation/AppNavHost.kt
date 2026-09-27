@@ -30,6 +30,7 @@ fun AppNavHost(
     darkTheme: Boolean,
     onDarkThemeChange: (Boolean) -> Unit,
     limiteAlcanzado: Boolean,
+    recargarTrigger: Int,
     navegar: (Screen) -> Unit,
     irATab: (Screen) -> Unit,
     atras: () -> Unit,
@@ -54,6 +55,7 @@ fun AppNavHost(
             is Screen.Citas -> CitasScreen(
                 viewModel = koinViewModel<CitasViewModel>(),
                 onCitaClick = { id -> navegar(Screen.Detalle(id)) },
+                recargarTrigger = recargarTrigger,
                 modifier = Modifier.padding(padding)
             )
             is Screen.Detalle -> DetalleCitaScreen(

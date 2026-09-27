@@ -22,14 +22,19 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.scale
-
+import androidx.compose.runtime.LaunchedEffect
 @Composable
 fun CitasScreen(
     viewModel: CitasViewModel,
     onCitaClick: (Int) -> Unit,
+    recargarTrigger: Int = 0,
     modifier: Modifier = Modifier
 ) {
     val estado by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(recargarTrigger) {
+        viewModel.cargarCitas()
+    }
 
     Column(modifier = modifier.fillMaxSize().padding(16.dp)) {
 

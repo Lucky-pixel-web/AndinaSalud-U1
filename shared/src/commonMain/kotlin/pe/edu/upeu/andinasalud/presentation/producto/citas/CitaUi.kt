@@ -25,9 +25,13 @@ fun Cita.aUi(): CitaUi {
         is EstadoCita.Cancelada -> "Cancelada"
     }
     return CitaUi(
-        id = id, especialidad = especialidad, medico = medico, sede = sede,
+        id = id,
+        especialidad = especialidad,
+        medico = medico,
+        sede = sede,
         fecha = fecha,
-        fechaTexto = "...", horaTexto = "...",
+        fechaTexto = "${fecha.dayOfMonth.toString().padStart(2, '0')}/${fecha.monthNumber.toString().padStart(2, '0')}/${fecha.year}",
+        horaTexto = "${hora.hour.toString().padStart(2, '0')}:${hora.minute.toString().padStart(2, '0')}",
         estadoTexto = estadoTexto,
         modalidad = modalidad,
         estado = estado

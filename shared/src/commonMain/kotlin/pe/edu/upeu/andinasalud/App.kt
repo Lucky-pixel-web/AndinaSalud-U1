@@ -68,6 +68,7 @@ fun App() = KoinContext {
                 darkTheme = darkTheme,
                 onDarkThemeChange = { darkTheme = it },
                 limiteAlcanzado = limiteAlcanzado,
+                recargarTrigger = trigger,
                 navegar = ::navegar,
                 irATab = { destino -> irATab(destino); trigger++ },
                 atras = { atras(); trigger++ },
