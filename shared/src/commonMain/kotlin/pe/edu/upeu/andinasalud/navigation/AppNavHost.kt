@@ -57,6 +57,7 @@ fun AppNavHost(
             )
             is Screen.Detalle -> DetalleCitaScreen(
                 viewModel = koinViewModel<DetalleCitaViewModel>(
+                    key = "detalle-cita-${pantalla.citaId}",
                     parameters = { parametersOf(pantalla.citaId) }
                 ),
                 modifier = Modifier.padding(padding)
